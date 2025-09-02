@@ -44,7 +44,7 @@ runs:
         echo "running action.yaml"
         echo "old permissions:"
         ls -al ./entrypoint.sh
-        chmod 600 ./entrypoint.sh
+        chmod 777 ./entrypoint.sh
         echo "new permissions:"
         ls -al ./entrypoint.sh
         ./entrypoint.sh
