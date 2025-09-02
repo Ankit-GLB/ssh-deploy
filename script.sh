@@ -10,7 +10,7 @@ sudo docker pull ""${DOCKER_USERNAME}"/${REPO_NAME}":"${REPO_TAG}"
 echo "2"
 
 echo "container name: ${APP_NAME}:${REPO_TAG}"
-sudo docker kill -t 30 "${APP_NAME}:${REPO_TAG}" 2>/dev/null # wait for 30 sec before sending SIGKILL signal
+# sudo docker kill -t 30 "${APP_NAME}:${REPO_TAG}" 2>/dev/null # wait for 30 sec before sending SIGKILL signal
 echo "3"
 sudo docker rm "${APP_NAME}:${REPO_TAG}" 2>/dev/null
 echo "4"
