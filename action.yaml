@@ -44,6 +44,7 @@ runs:
         echo "running action.yaml"
         ./entrypoint.sh
       shell: bash
+      working-directory: ${{ github.action_path }}
       env:
         # MODE: ${{ secrets.MODE }}
         EC2_USERNAME: ${{ inputs.username }}
