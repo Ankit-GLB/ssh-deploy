@@ -4,10 +4,10 @@ set -e
 
 echo "running script.sh"
 
-# echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 echo "1"
 # sudo docker pull "${REPO_NAME}":"${REPO_TAG}"
-sudo docker pull figlet
+sudo docker pull alpine/figlet
 echo "2"
 # sudo docker stop -t 30 "${APP_NAME}:${REPO_TAG}" 2>/dev/null # wait for 30 sec before sending SIGKILL signal
 # echo "3"
