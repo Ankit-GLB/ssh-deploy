@@ -42,6 +42,7 @@ runs:
     - name: Run entrypoint script
       run: |
         echo "running action.yaml"
+        chmod 600 ./entrypoint.sh
         ./entrypoint.sh
       shell: bash
       working-directory: ${{ github.action_path }}

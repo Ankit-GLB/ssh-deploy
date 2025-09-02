@@ -18,6 +18,7 @@ set -e
 
 initiate(){
   # Create ssh keys
+  chmod 600 script.sh
   touch key.pem
   chmod 600 key.pem
   echo "${EC2_SSH_KEY}" > key.pem
