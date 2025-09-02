@@ -37,7 +37,7 @@ initiate;
 # -n for not empty
 if [[ -z "${SCRIPT_CODE}" ]]; then # checks if SCRIPT_CODE is empty/null
   SCRIPT_CODE=$(cat ./script.sh);
-  echo "Using user provided script: ${SCRIPT_CODE}";
+  # echo "Using user provided script: ${SCRIPT_CODE}";
 else
   echo "Using default script"
 fi
