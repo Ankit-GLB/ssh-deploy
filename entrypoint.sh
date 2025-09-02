@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-if [[ "${MODE}" != 1 ]]; then exit 0; fi
+# if [[ "${MODE}" != 1 ]]; then exit 0; fi
 
 # List of environment variables
 #  EC2_USERNAME

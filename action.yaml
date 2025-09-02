@@ -45,7 +45,7 @@ runs:
         ./entrypoint.sh
       shell: bash
       env:
-        MODE: ${{ secrets.MODE }}
+        # MODE: ${{ secrets.MODE }}
         EC2_USERNAME: ${{ inputs.username }}
         EC2_HOSTNAME: ${{ inputs.hostname }}
         EC2_SSH_KEY: ${{ inputs.ssh_key }}
