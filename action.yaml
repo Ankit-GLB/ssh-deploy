@@ -1,0 +1,59 @@
+name: "Ssh and run Docker app"
+description: "Ssh into cloud linux machine and execute script to run docker container"
+
+inputs:
+  username:
+    description: "username"
+    required: true
+  hostname:
+    description: "hostname or ip address"
+    required: true
+  ssh_key:
+    description: "ssh key for logging using ssh"
+    required: true
+  docker_username:
+    description: "docker hub username"
+    required: true
+  docker_password:
+    description: "docker hub password"
+    required: true
+  repo_name:
+    description: "docker repo name"
+    required: true
+  repo_tag:
+    description: "repo tag"
+    required: true
+  app_name:
+    description: "name of the app"
+    required: true
+  app_port:
+    description: "port on which app is running inside the container"
+    required: true
+  host_app_port:
+    description: "port on host machine on which we are exposing app_port of the container"
+    required: false
+  script_code:
+    description: "custom script to run (optional)"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Run entrypoint script
+      run: |
+        echo "running action.yaml"
+        ./entrypoint.sh
+      shell: bash
+      env:
+        MODE: ${{ secrets.mode }}
+        EC2_USERNAME: ${{ inputs.username }}
+        EC2_HOSTNAME: ${{ inputs.hostname }}
+        EC2_SSH_KEY: ${{ inputs.ssh_key }}
+        DOCKER_USERNAME: ${{ inputs.docker_username }}
+        DOCKER_PASSWORD: ${{ inputs.docker_password }}
+        REPO_NAME: ${{ inputs.repo_name }}
+        REPO_TAG: ${{ inputs.repo_tag }}
+        APP_NAME: ${{ inputs.app_name }}
+        SCRIPT_CODE: ${{ inputs.script_code }}
+        APP_PORT: ${{ inputs.app_port }}
+        #HOST_APP_PORT: ${{ inputs.host_app_port }}
