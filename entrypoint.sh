@@ -14,7 +14,8 @@ set -e
 #  APP_NAME
 #  SCRIPT_CODE
 #  APP_PORT
-#  HOST_APP_PORT
+#  HOST_PORT
+#  ENV_STRING
 
 initiate(){
   # Create ssh keys
@@ -30,7 +31,6 @@ cleanup(){
 };
 
 echo "running entrypoint.sh"
-initiate;
 
 # some logic here
 # -z for empty/unset
@@ -42,10 +42,31 @@ else
   echo "Using default script"
 fi
 
+initiate;
+
 echo "App deployment started"
 
-ssh -i ./key.pem -o StrictHostKeyChecking=no "${EC2_USERNAME}"@"${EC2_HOSTNAME}" \
-"DOCKER_USERNAME=${DOCKER_USERNAME} DOCKER_PASSWORD=${DOCKER_PASSWORD} REPO_NAME=${REPO_NAME} REPO_TAG=${REPO_TAG} APP_NAME=${APP_NAME} APP_PORT=${APP_PORT} bash -s" <<< "${SCRIPT_CODE}"
+touch .env
+
+# Required environment variables (current count: 7)
+echo DOCKER_USERNAME=${DOCKER_USERNAME} >> .env
+echo DOCKER_PASSWORD=${DOCKER_PASSWORD} >> .env
+echo REPO_NAME=${REPO_NAME} >> .env
+echo REPO_TAG=${REPO_TAG} >> .env
+echo APP_NAME=${APP_NAME} >> .env
+echo APP_PORT=${APP_PORT} >> .env
+echo HOST_PORT=${HOST_PORT} >> .env
+
+mkdir ${APP_NAME}
+# cp ./script.sh ./${APP_NAME}
+cd ${APP_NAME}
+# Adding extra environment variables
+touch .env
+echo ${ENV_STRING} >> .env
+echo "Total env. lines count: $(cat .env | wc -l)"
+rm -rf ${APP_NAME}
+
+ssh -i ./key.pem -o StrictHostKeyChecking=no "${EC2_USERNAME}"@"${EC2_HOSTNAME}" <<< "${SCRIPT_CODE}"
 
 ssh_status=$?
 

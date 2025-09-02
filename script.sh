@@ -1,20 +1,35 @@
 #!/bin/bash
 
-set -e
-
 echo "running script.sh"
 
-echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-echo "1"
-sudo docker pull ""${DOCKER_USERNAME}"/${REPO_NAME}":"${REPO_TAG}"
-echo "2"
+# echo "env. list"
+# echo ${ENV_STRING} > .env
+# cat .env
 
-echo "container name: ${APP_NAME}:${REPO_TAG}"
-# sudo docker kill -t 30 "${APP_NAME}:${REPO_TAG}" 2>/dev/null # wait for 30 sec before sending SIGKILL signal
-echo "3"
-sudo docker rm "${APP_NAME}:${REPO_TAG}" 2>/dev/null
-echo "4"
-sudo docker run --name "${APP_NAME}:${REPO_TAG}" -d -p 443:"${APP_PORT}" -p 80:"${APP_PORT}" "${REPO_NAME}":"${REPO_TAG}"
-echo "5"
+echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+if [[ $? != 0 ]]; then
+    exit 1;
+fi;
+
+sudo docker pull "${DOCKER_USERNAME}/${REPO_NAME}":"${REPO_TAG}"
+
+if [[ $? != 0 ]]; then
+    exit 1;
+fi;
+
+echo "app_name: ${APP_NAME}" 
+echo "app_port: ${APP_PORT}" 
+echo "host_port: ${HOST_PORT}" 
+
+sudo docker kill "${APP_NAME}"
+
+sudo docker rm "${APP_NAME}" 
+
+sudo docker run --name "${APP_NAME}" -d -p "${HOST_PORT}":"${APP_PORT}" "${DOCKER_USERNAME}/${REPO_NAME}":"${REPO_TAG}"
+
+if [[ $? != 0 ]]; then
+    exit 1;
+fi;
+
 echo "exiting script.sh"
-echo "6"
